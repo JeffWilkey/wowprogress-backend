@@ -1,14 +1,18 @@
 {
-  "name": "node-jwt-auth",
+  "name": "articles",
   "version": "1.0.0",
-  "description": "",
+  "description": "A simple node/express/mongo app where you can write and share articles about whatever you want",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/JeffWilkey/articles.git"
+  },
   "main": "index.js",
   "scripts": {
     "start": "node server.js",
     "test": "mocha --exit"
   },
   "keywords": [],
-  "author": "",
+  "author": "Jeff Wilkey",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.0",
