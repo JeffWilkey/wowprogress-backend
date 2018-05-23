@@ -95,9 +95,9 @@ router.post('/', jsonParser, (req, res) => {
   let {email, username, password, firstName = '', lastName = ''} = req.body;
   // Username and password come in pre-trimmed, otherwise we throw an error
   // before this
+  email = email.trim();
   firstName = firstName.trim();
   lastName = lastName.trim();
-  email = email.trim();
 
   return User.find({username})
     .count()
