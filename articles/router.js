@@ -22,8 +22,67 @@ router.get('/', jwtAuth, (req, res) => {
   });
 });
 
-router.get('/:id', (req, res) => {
+router.get('/:id', jwtAuth, (req, res) => {
+  Article
+    .findById(req.params.id)
+    .then(article => res.json(article.serialize()))
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({ message: 'Internal server error' });
+    });
+});
 
+router.post('/', jwtAuth, (req, res) => {
+  const requiredFields = ['title', 'body', 'userId']
+  for (let i = 0; i < requiredFields.length; i++) {
+    const field = requiredFields[i];
+    if (!(field in req.body)) {
+      const message = `Missing \`${field}\` in request body`;
+      console.error(message);
+      return res.status(400).send(message);
+    }
+  }
+
+  Article
+    .create(req.body)
+    .then(article => res.status(201).json(article.serialize()))
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({ message: 'Internal server error' });
+    });
+});
+
+
+router.put('/:id', jwtAuth, (req, res) => {
+  // ensure that the id in the request path and the one in request body match
+  if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
+    const message = (
+      `Request path id (${req.params.id}) and request body id ` +
+      `(${req.body.id}) must match`);
+    console.error(message);
+    return res.status(400).json({ message: message });
+  }
+
+  const toUpdate = {};
+  const updateableFields = ['title', 'body'];
+
+  updateableFields.forEach(field => {
+    if (field in req.body) {
+      toUpdate[field] = req.body[field];
+    }
+  });
+
+  Article
+  .findByIdAndUpdate(req.params.id, { $set: toUpdate })
+  .then(article => res.status(200).json(article.serialize()))
+  .catch(err => res.status(500).json({ message: 'Internal server error' }));
+});
+
+router.delete('/:id', jwtAuth, (req, res) => {
+  Article
+  .findByIdAndRemove(req.params.id)
+  .then(article => res.status(204).end())
+  .catch(err => res.status(500).json({ message: 'Internal server error' }));
 });
 
 module.exports = {router};
