@@ -1,6 +1,7 @@
 'use strict';
 const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
+const gravatar = require('gravatar');
 
 mongoose.Promise = global.Promise;
 
@@ -23,12 +24,17 @@ const UserSchema = mongoose.Schema({
   lastName: {type: String, default: ''}
 });
 
+UserSchema.virtual('gravatar').get(function () {
+  return gravatar.url(this.email, {s: '200', r: 'pg', d: 'retro', protocol: 'https'});
+});
+
 UserSchema.methods.serialize = function() {
   return {
     email: this.email || '',
     username: this.username || '',
     firstName: this.firstName || '',
-    lastName: this.lastName || ''
+    lastName: this.lastName || '',
+    gravatar: this.gravatar || ''
   };
 };
 
