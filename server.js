@@ -4,6 +4,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
 const passport = require('passport');
+const sassMiddleware = require('node-sass-middleware');
+const path = require('path');
 
 // Here we use destructuring assignment with renaming so the two variables
 // called router (from ./users and ./auth) have different names
@@ -36,6 +38,7 @@ app.use(function (req, res, next) {
   next();
 });
 
+// Authentication
 passport.use(localStrategy);
 passport.use(jwtStrategy);
 
@@ -44,6 +47,17 @@ app.use('/api/auth/', authRouter);
 app.use('/api/articles/', articleRouter);
 
 const jwtAuth = passport.authenticate('jwt', { session: false });
+
+app.use(sassMiddleware({
+    /* Options */
+    src: path.join(__dirname, '/public/sass'),
+    dest: path.join(__dirname, '/public'),
+    debug: true,
+    outputStyle: 'compressed',
+    prefix:  '/styles'  // Where prefix is at <link rel="stylesheets" href="prefix/style.css"/>
+}));
+
+app.use('/', express.static(path.join(__dirname, 'public')));
 
 // A protected endpoint which needs a valid JWT to access it
 app.get('/api/protected', jwtAuth, (req, res) => {
