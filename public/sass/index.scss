@@ -6,6 +6,23 @@ body {
   color: #FF8A65;
 }
 
+.container {
+  margin: 0 auto;
+  max-width: 80%;
+}
+
+.shadowbox {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  background-color: rgba(0, 0, 0, 0.3);
+  transition: .4s;
+}
+
 .header-container {
   width: 100%;
   text-align: center;
@@ -31,7 +48,7 @@ body {
     text-transform: uppercase;
     font-family: 'Roboto', sans-serif;
     font-size: 0.9em;
-    background-color: #f8f8f8;
+    background-color: #f7f7f7;
     color: #333;
     border: none;
     transition: .2s;
@@ -43,5 +60,14 @@ body {
       -webkit-transform: translate(-2px, -2px); /* Safari */
       transform: translate(-2px, -2px);
     }
+    &:active, &:focus {
+      outline: none;
+    }
+  }
+}
+
+@media (min-width: 750px) {
+  .container {
+    width: 960px;
   }
 }

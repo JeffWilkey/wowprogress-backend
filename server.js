@@ -51,7 +51,7 @@ const jwtAuth = passport.authenticate('jwt', { session: false });
 app.use(sassMiddleware({
     /* Options */
     src: path.join(__dirname, '/public/sass'),
-    dest: path.join(__dirname, '/public'),
+    dest: path.join(__dirname, '/public/styles'),
     debug: true,
     outputStyle: 'compressed',
     prefix:  '/styles'  // Where prefix is at <link rel="stylesheets" href="prefix/style.css"/>
