@@ -19,24 +19,55 @@ function renderFrontPage() {
 
 function watchSignUp() {
   $('#signup').on('click', function() {
-    $('.shadowbox').css({
-      zIndex: 1,
-      opacity: 1
-    });
+    $('.shadowbox').fadeIn(200);
+    insertShadowBoxHTML(`
+      <div class="auth-form-container">
+        <i id="close-shadowbox" class="fa fa-times" href="#"></i>
+        <h1 class="auth-form-header">Sign Up</h1>
+        <div class="form-wrapper">
+          <form class="auth-form">
+            <label for="email">Email</label>
+            <input type="text" name="email"/>
+            <label for="username">Username</label>
+            <input type="text" name="username"/>
+            <label for="password">Password</label>
+            <input type="password" name="password"/>
+          </form>
+        </div>
+      </div>
+    `);
   });
 }
 
 function watchLogIn() {
-
+  $('#login').on('click', function() {
+    $('.shadowbox').fadeIn(200);
+    insertShadowBoxHTML(`
+      <div class="auth-form-container">
+        <i id="close-shadowbox" class="fa fa-times" href="#"></i>
+        <h1 class="auth-form-header">Log In</h1>
+        <div class="form-wrapper">
+          <form class="auth-form">
+            <label for="email">Email</label>
+            <input type="text" name="email"/>
+            <label for="password">Password</label>
+            <input type="password" name="password"/>
+          </form>
+        </div>
+      </div>
+    `);
+  });
 }
 
-function watchShadowBox() {
-  $(".shadowbox").on('click', function() {
-    $(this).css({
-      opacity: 0
-    }).css({
-      zIndex: -1
-    });
+function insertShadowBoxHTML(htmlToInsert) {
+  $('.shadowbox').html(htmlToInsert);
+}
+
+function watchShadowBoxClose() {
+  $(".shadowbox").on('click', '#close-shadowbox', function(e) {
+    console.log("hi")
+    $('.auth-form-container').fadeOut(200);
+    $('.shadowbox').fadeOut(200);
   });
 }
 
@@ -44,7 +75,7 @@ function initializeApp() {
   renderFrontPage();
   watchSignUp();
   watchLogIn();
-  watchShadowBox();
+  watchShadowBoxClose();
 }
 
 initializeApp();

@@ -6,6 +6,17 @@ body {
   color: #FF8A65;
 }
 
+.fa.fa-times {
+  position: absolute;
+  color: white;
+  font-size: 2em;
+  top: 15px;
+  right: 15px;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
 .container {
   margin: 0 auto;
   max-width: 80%;
@@ -15,12 +26,10 @@ body {
   width: 100vw;
   height: 100vh;
   position: absolute;
-  opacity: 0;
   top: 0;
   left: 0;
-  z-index: -1;
-  background-color: rgba(0, 0, 0, 0.3);
-  transition: .4s;
+  display: none;
+  background-color: rgba(0, 0, 0, 0.9);
 }
 
 .header-container {
@@ -37,37 +46,81 @@ body {
   }
 }
 
-.auth-actions-container {
-  .auth-actions-button {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    width: 120px;
-    margin: 0 5px;
-    padding: 10px 0;
-    text-transform: uppercase;
-    font-family: 'Roboto', sans-serif;
-    font-size: 0.9em;
-    background-color: #f7f7f7;
-    color: #333;
-    border: none;
-    transition: .2s;
-    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
-    &:hover {
-      cursor: pointer;
-      box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.2);
-      -ms-transform: translate(-2px, -2px); /* IE 9 */
-      -webkit-transform: translate(-2px, -2px); /* Safari */
-      transform: translate(-2px, -2px);
+.auth-actions-button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 120px;
+  margin: 0 5px;
+  padding: 10px 0;
+  text-transform: uppercase;
+  font-family: 'Roboto', sans-serif;
+  font-size: 0.9em;
+  background-color: #f7f7f7;
+  color: #333;
+  border: none;
+  transition: .2s;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+  &:hover {
+    cursor: pointer;
+    box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.2);
+    -ms-transform: translate(-2px, -2px); /* IE 9 */
+    -webkit-transform: translate(-2px, -2px); /* Safari */
+    transform: translate(-2px, -2px);
+  }
+  &:active, &:focus {
+    outline: none;
+  }
+}
+
+.auth-form-container {
+  width: 80%;
+  height: 500px;
+  margin: 0 auto;
+  text-align: center;
+  margin-top: 40px;
+  .auth-form-header {
+    color: white;
+    font-family: 'Lato', 'sans-serif';
+  }
+  .auth-form {
+    text-align: left;
+    input {
+      display: block;
+      height: 32px;
+      width: 188px;
+      padding-left: 15px;
+      background: none;
+      border: solid 2px white;
+      border-radius: 18px;
+      color: white;
+      font-size: 16px;
+      font-family: 'Lato', sans-serif;
+      font-weight: 300;
+      &:focus {
+        outline: none;
+      }
     }
-    &:active, &:focus {
-      outline: none;
+    label {
+      display: block;
+      color: white;
+      font-family: 'Lato', 'sans-serif';
+      font-weight: 300;
+      margin: 5px 0;
     }
   }
+}
+
+.form-wrapper {
+  display: inline-block;
 }
 
 @media (min-width: 750px) {
   .container {
     width: 960px;
+  }
+
+  .auth-form-container {
+    width: 40%;
   }
 }
