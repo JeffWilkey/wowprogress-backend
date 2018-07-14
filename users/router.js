@@ -12,8 +12,9 @@ const jsonParser = bodyParser.json();
 router.post('/', jsonParser, (req, res) => {
   const requiredFields = ['email', 'username', 'password'];
   const missingField = requiredFields.find(field => !(field in req.body));
-
+  console.log(req.headers)
   if (missingField) {
+    console.log("MISSING FIELD", missingField)
     return res.status(422).json({
       code: 422,
       reason: 'ValidationError',
@@ -28,6 +29,7 @@ router.post('/', jsonParser, (req, res) => {
   );
 
   if (nonStringField) {
+    console.log("ERROR: expected string")
     return res.status(422).json({
       code: 422,
       reason: 'ValidationError',
@@ -49,6 +51,7 @@ router.post('/', jsonParser, (req, res) => {
   );
 
   if (nonTrimmedField) {
+    console.log("ERROR: cannot start or end with whitespace")
     return res.status(422).json({
       code: 422,
       reason: 'ValidationError',
@@ -80,6 +83,7 @@ router.post('/', jsonParser, (req, res) => {
   );
 
   if (tooSmallField || tooLargeField) {
+    console.log("ERROR: Field too large or small")
     return res.status(422).json({
       code: 422,
       reason: 'ValidationError',
@@ -104,6 +108,7 @@ router.post('/', jsonParser, (req, res) => {
     .then(count => {
       if (count > 0) {
         // There is an existing user with the same username
+        console.log("USER ALREADY EXISTS")
         return Promise.reject({
           code: 422,
           reason: 'ValidationError',
@@ -132,7 +137,8 @@ router.post('/', jsonParser, (req, res) => {
       if (err.reason === 'ValidationError') {
         return res.status(err.code).json(err);
       }
-      res.status(500).json({code: 500, message: 'Internal server error'});
+      console.log(err);
+      res.status(500).json({code: 500, message: err});
     });
 });
 

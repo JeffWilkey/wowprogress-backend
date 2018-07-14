@@ -4,7 +4,11 @@ const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
 const ArticleSchema = mongoose.Schema({
-  userId: {
+  userImage: {
+    type: String,
+    required: true
+  },
+  userName: {
     type: String,
     required: true
   },
@@ -20,9 +24,10 @@ const ArticleSchema = mongoose.Schema({
 
 ArticleSchema.methods.serialize = function() {
   return {
-    userId: this.userId || '',
+    userImage: this.userImage || '',
+    userName: this.userName || '',
     title: this.title || '',
-    body: this.firstName || ''
+    body: this.body || ''
   };
 };
 

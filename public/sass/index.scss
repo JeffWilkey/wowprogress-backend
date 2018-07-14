@@ -6,12 +6,22 @@ body {
   color: #FF8A65;
 }
 
-.fa.fa-times {
+#close-shadowbox {
   position: absolute;
   color: white;
   font-size: 2em;
   top: 15px;
   right: 15px;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+#close-alert {
+  position: absolute;
+  right: 15px;
+  top: 12px;
+  color: #333;
   &:hover {
     cursor: pointer;
   }
@@ -108,13 +118,45 @@ body {
       font-weight: 300;
       margin: 5px 0;
     }
+    #sign-up-action, #login-action {
+      margin: 25px auto 0 auto;
+      width: 120px;
+      height: 36px;
+      border-radius: 0;
+      background-color: #FF8A65;
+      border: none;
+      padding: 9px 0 10px 0;
+      text-transform: uppercase;
+      font-family: 'Roboto', sans-serif;
+      transition: .2s;
+      &:hover {
+        cursor: pointer;
+        box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.2);
+        -ms-transform: translate(-2px, -2px); /* IE 9 */
+        -webkit-transform: translate(-2px, -2px); /* Safari */
+        transform: translate(-2px, -2px);
+      }
+    }
   }
 }
 
 .form-wrapper {
   display: inline-block;
 }
-
+.alert-success {
+  position: fixed;
+  top: 0;
+  padding-top: 10px;
+  height: 30px;
+  width: 100%;
+  background-color: rgba(41, 187, 156, 0.5);
+  vertical-align: top;
+  display: none;
+  p {
+    margin-top: 0;
+    font-family: "Lato", sans-serif;
+  }
+}
 @media (min-width: 750px) {
   .container {
     width: 960px;

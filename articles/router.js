@@ -1,12 +1,13 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const router = express.Router();
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 
-const { Article } = require('./models')
+const { Article } = require('./models');
 
 const jwtAuth = passport.authenticate('jwt', {session: false});
-
+router.use(bodyParser.json());
 // The user exchanges a valid JWT for a new one with a later expiration
 router.get('/', jwtAuth, (req, res) => {
   Article
@@ -33,7 +34,7 @@ router.get('/:id', jwtAuth, (req, res) => {
 });
 
 router.post('/', jwtAuth, (req, res) => {
-  const requiredFields = ['title', 'body', 'userId']
+  const requiredFields = ['title', 'body']
   for (let i = 0; i < requiredFields.length; i++) {
     const field = requiredFields[i];
     if (!(field in req.body)) {
@@ -42,9 +43,12 @@ router.post('/', jwtAuth, (req, res) => {
       return res.status(400).send(message);
     }
   }
-
+  userDetails = {
+    userImage: req.user.gravatar,
+    userName: req.user.username
+  }
   Article
-    .create(req.body)
+    .create({...req.body, ...userDetails})
     .then(article => res.status(201).json(article.serialize()))
     .catch(err => {
       console.error(err);
