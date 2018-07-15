@@ -83,9 +83,9 @@ function watchLogInButton() {
         <div class="form-wrapper">
           <form id="login-form" class="auth-form">
             <label for="username">Username</label>
-            <input type="text" name="username" value="jeffwilkey"/>
+            <input type="text" name="username"/>
             <label for="password">Password</label>
-            <input type="password" value="testtest" name="password"/>
+            <input type="password" name="password"/>
             <input id="login-action" type="submit" value="Log in"/>
           </form>
         </div>
