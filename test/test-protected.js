@@ -16,6 +16,7 @@ const expect = chai.expect;
 chai.use(chaiHttp);
 
 describe('Protected endpoint', function () {
+  const email = 'example.user@example.com'
   const username = 'exampleUser';
   const password = 'examplePass';
   const firstName = 'Example';
@@ -32,6 +33,7 @@ describe('Protected endpoint', function () {
   beforeEach(function () {
     return User.hashPassword(password).then(password =>
       User.create({
+        email,
         username,
         password,
         firstName,

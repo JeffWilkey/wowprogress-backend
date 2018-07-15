@@ -15,10 +15,12 @@ const expect = chai.expect;
 chai.use(chaiHttp);
 
 describe('/api/user', function () {
+  const email = 'example.user@example.com'
   const username = 'exampleUser';
   const password = 'examplePass';
   const firstName = 'Example';
   const lastName = 'User';
+  const emailB = 'examble.userB@exampleB.com'
   const usernameB = 'exampleUserB';
   const passwordB = 'examplePassB';
   const firstNameB = 'ExampleB';
@@ -45,6 +47,7 @@ describe('/api/user', function () {
           .request(app)
           .post('/api/users')
           .send({
+            email,
             password,
             firstName,
             lastName
@@ -69,6 +72,7 @@ describe('/api/user', function () {
           .request(app)
           .post('/api/users')
           .send({
+            email,
             username,
             firstName,
             lastName
@@ -93,6 +97,7 @@ describe('/api/user', function () {
           .request(app)
           .post('/api/users')
           .send({
+            email,
             username: 1234,
             password,
             firstName,
@@ -120,6 +125,7 @@ describe('/api/user', function () {
           .request(app)
           .post('/api/users')
           .send({
+            email,
             username,
             password: 1234,
             firstName,
@@ -147,6 +153,7 @@ describe('/api/user', function () {
           .request(app)
           .post('/api/users')
           .send({
+            email,
             username,
             password,
             firstName: 1234,
@@ -174,6 +181,7 @@ describe('/api/user', function () {
           .request(app)
           .post('/api/users')
           .send({
+            email,
             username,
             password,
             firstName,
@@ -201,6 +209,7 @@ describe('/api/user', function () {
           .request(app)
           .post('/api/users')
           .send({
+            email,
             username: ` ${username} `,
             password,
             firstName,
@@ -228,6 +237,7 @@ describe('/api/user', function () {
           .request(app)
           .post('/api/users')
           .send({
+            email,
             username,
             password: ` ${password} `,
             firstName,
@@ -255,6 +265,7 @@ describe('/api/user', function () {
           .request(app)
           .post('/api/users')
           .send({
+            email,
             username: '',
             password,
             firstName,
@@ -282,8 +293,9 @@ describe('/api/user', function () {
           .request(app)
           .post('/api/users')
           .send({
+            email,
             username,
-            password: '123456789',
+            password: '12345',
             firstName,
             lastName
           })
@@ -299,7 +311,7 @@ describe('/api/user', function () {
             expect(res).to.have.status(422);
             expect(res.body.reason).to.equal('ValidationError');
             expect(res.body.message).to.equal(
-              'Must be at least 10 characters long'
+              'Must be at least 6 characters long'
             );
             expect(res.body.location).to.equal('password');
           });
@@ -309,6 +321,7 @@ describe('/api/user', function () {
           .request(app)
           .post('/api/users')
           .send({
+            email,
             username,
             password: new Array(73).fill('a').join(''),
             firstName,
@@ -334,6 +347,7 @@ describe('/api/user', function () {
       it('Should reject users with duplicate username', function () {
         // Create an initial user
         return User.create({
+          email,
           username,
           password,
           firstName,
@@ -342,6 +356,7 @@ describe('/api/user', function () {
           .then(() =>
             // Try to create a second user with the same username
             chai.request(app).post('/api/users').send({
+              email,
               username,
               password,
               firstName,
@@ -370,6 +385,7 @@ describe('/api/user', function () {
           .request(app)
           .post('/api/users')
           .send({
+            email,
             username,
             password,
             firstName,
@@ -379,10 +395,13 @@ describe('/api/user', function () {
             expect(res).to.have.status(201);
             expect(res.body).to.be.an('object');
             expect(res.body).to.have.keys(
+              'email',
               'username',
+              'gravatar',
               'firstName',
               'lastName'
             );
+            expect(res.body.email).to.equal(email);
             expect(res.body.username).to.equal(username);
             expect(res.body.firstName).to.equal(firstName);
             expect(res.body.lastName).to.equal(lastName);
@@ -405,6 +424,7 @@ describe('/api/user', function () {
           .request(app)
           .post('/api/users')
           .send({
+            email,
             username,
             password,
             firstName: ` ${firstName} `,
@@ -414,10 +434,13 @@ describe('/api/user', function () {
             expect(res).to.have.status(201);
             expect(res.body).to.be.an('object');
             expect(res.body).to.have.keys(
+              'email',
               'username',
+              'gravatar',
               'firstName',
               'lastName'
             );
+            expect(res.body.email).to.equal(email);
             expect(res.body.username).to.equal(username);
             expect(res.body.firstName).to.equal(firstName);
             expect(res.body.lastName).to.equal(lastName);
@@ -444,12 +467,14 @@ describe('/api/user', function () {
       it('Should return an array of users', function () {
         return User.create(
           {
+            email,
             username,
             password,
             firstName,
             lastName
           },
           {
+            email: emailB,
             username: usernameB,
             password: passwordB,
             firstName: firstNameB,
@@ -461,12 +486,14 @@ describe('/api/user', function () {
             expect(res).to.have.status(200);
             expect(res.body).to.be.an('array');
             expect(res.body).to.have.length(2);
-            expect(res.body[0]).to.deep.equal({
+            expect(res.body[0]).to.include({
+              email,
               username,
               firstName,
               lastName
             });
-            expect(res.body[1]).to.deep.equal({
+            expect(res.body[1]).to.include({
+              email: emailB,
               username: usernameB,
               firstName: firstNameB,
               lastName: lastNameB
