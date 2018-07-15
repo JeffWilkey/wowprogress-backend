@@ -1,2 +1,2 @@
-# articles
-A simple node/express/mongo app where you can write and share articles about whatever you want
+# artshare
+A simple node/express/mongo app where you can share art with people
