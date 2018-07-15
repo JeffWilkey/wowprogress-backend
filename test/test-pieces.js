@@ -66,6 +66,7 @@ describe('Pieces API resource', function() {
 
   describe('GET endpoint', function() {
     it('should return all existing pieces', function() {
+      this.timeout(5000);
       const token = jwt.sign(
         {
           user: {
@@ -96,6 +97,7 @@ describe('Pieces API resource', function() {
         });
     });
     it('should return pieces with right fields', function() {
+      this.timeout(5000);
       const token = jwt.sign(
         {
           user: {
@@ -143,6 +145,7 @@ describe('Pieces API resource', function() {
   });
   describe('POST endpoint', function() {
     it('should add a new piece', function() {
+      this.timeout(5000);
       const token = jwt.sign(
         {
           user: {
@@ -202,6 +205,7 @@ describe('Pieces API resource', function() {
   });
   describe('PUT endpoint', function() {
    it('should update fields you send over', function() {
+     this.timeout(5000);
      const updateData = {
        	title: "Chroma II",
        	artist: "Dan Mumford",
@@ -256,6 +260,7 @@ describe('Pieces API resource', function() {
        });
    });
    it('should not allow you to update a piece that does not belong to you', function() {
+     this.timeout(5000);
      const updateData = {
        	title: "Chroma II",
        	artist: "Dan Mumford",
@@ -305,6 +310,7 @@ describe('Pieces API resource', function() {
  });
  describe('DELETE endpoint', function() {
     it('should delete a piece by id', function() {
+      this.timeout(5000);
       let piece;
 
       return Piece
@@ -338,6 +344,7 @@ describe('Pieces API resource', function() {
         });
     });
     it('should not allow you to delete a post that does not belong to you', function() {
+      this.timeout(5000);
       let piece;
 
       return Piece

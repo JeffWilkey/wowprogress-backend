@@ -48,6 +48,7 @@ describe('Protected endpoint', function () {
 
   describe('/api/protected', function () {
     it('Should reject requests with no credentials', function () {
+      this.timeout(5000);
       return chai
         .request(app)
         .get('/api/protected')
@@ -65,6 +66,7 @@ describe('Protected endpoint', function () {
     });
 
     it('Should reject requests with an invalid token', function () {
+      this.timeout(5000);
       const token = jwt.sign(
         {
           username,
@@ -95,6 +97,7 @@ describe('Protected endpoint', function () {
         });
     });
     it('Should reject requests with an expired token', function () {
+      this.timeout(5000);
       const token = jwt.sign(
         {
           user: {
@@ -128,6 +131,7 @@ describe('Protected endpoint', function () {
         });
     });
     it('Should send protected data', function () {
+      this.timeout(5000);
       const token = jwt.sign(
         {
           user: {

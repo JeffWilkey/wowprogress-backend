@@ -43,6 +43,7 @@ describe('/api/user', function () {
   describe('/api/users', function () {
     describe('POST', function () {
       it('Should reject users with missing username', function () {
+        this.timeout(5000);
         return chai
           .request(app)
           .post('/api/users')
@@ -68,6 +69,7 @@ describe('/api/user', function () {
           });
       });
       it('Should reject users with missing password', function () {
+        this.timeout(5000);
         return chai
           .request(app)
           .post('/api/users')
@@ -93,6 +95,7 @@ describe('/api/user', function () {
           });
       });
       it('Should reject users with non-string username', function () {
+        this.timeout(5000);
         return chai
           .request(app)
           .post('/api/users')
@@ -121,6 +124,7 @@ describe('/api/user', function () {
           });
       });
       it('Should reject users with non-string password', function () {
+        this.timeout(5000);
         return chai
           .request(app)
           .post('/api/users')
@@ -149,6 +153,7 @@ describe('/api/user', function () {
           });
       });
       it('Should reject users with non-string first name', function () {
+        this.timeout(5000);
         return chai
           .request(app)
           .post('/api/users')
@@ -177,6 +182,7 @@ describe('/api/user', function () {
           });
       });
       it('Should reject users with non-string last name', function () {
+        this.timeout(5000);
         return chai
           .request(app)
           .post('/api/users')
@@ -205,6 +211,7 @@ describe('/api/user', function () {
           });
       });
       it('Should reject users with non-trimmed username', function () {
+        this.timeout(5000);
         return chai
           .request(app)
           .post('/api/users')
@@ -233,6 +240,7 @@ describe('/api/user', function () {
           });
       });
       it('Should reject users with non-trimmed password', function () {
+        this.timeout(5000);
         return chai
           .request(app)
           .post('/api/users')
@@ -261,6 +269,7 @@ describe('/api/user', function () {
           });
       });
       it('Should reject users with empty username', function () {
+        this.timeout(5000);
         return chai
           .request(app)
           .post('/api/users')
@@ -289,6 +298,7 @@ describe('/api/user', function () {
           });
       });
       it('Should reject users with password less than ten characters', function () {
+        this.timeout(5000);
         return chai
           .request(app)
           .post('/api/users')
@@ -317,6 +327,7 @@ describe('/api/user', function () {
           });
       });
       it('Should reject users with password greater than 72 characters', function () {
+        this.timeout(5000);
         return chai
           .request(app)
           .post('/api/users')
@@ -345,6 +356,7 @@ describe('/api/user', function () {
           });
       });
       it('Should reject users with duplicate username', function () {
+        this.timeout(5000);
         // Create an initial user
         return User.create({
           email,
@@ -381,6 +393,7 @@ describe('/api/user', function () {
           });
       });
       it('Should create a new user', function () {
+        this.timeout(5000);
         return chai
           .request(app)
           .post('/api/users')
@@ -420,6 +433,7 @@ describe('/api/user', function () {
           });
       });
       it('Should trim firstName and lastName', function () {
+        this.timeout(5000);
         return chai
           .request(app)
           .post('/api/users')
@@ -458,6 +472,7 @@ describe('/api/user', function () {
 
     describe('GET', function () {
       it('Should return an empty array initially', function () {
+        this.timeout(5000);
         return chai.request(app).get('/api/users').then(res => {
           expect(res).to.have.status(200);
           expect(res.body).to.be.an('array');
@@ -465,6 +480,7 @@ describe('/api/user', function () {
         });
       });
       it('Should return an array of users', function () {
+        this.timeout(5000);
         return User.create(
           {
             email,

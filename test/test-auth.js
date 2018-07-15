@@ -48,6 +48,7 @@ describe('Auth endpoints', function () {
 
   describe('/api/auth/login', function () {
     it('Should reject requests with no credentials', function () {
+      this.timeout(5000);
       return chai
         .request(app)
         .post('/api/auth/login')
@@ -64,6 +65,7 @@ describe('Auth endpoints', function () {
         });
     });
     it('Should reject requests with incorrect usernames', function () {
+      this.timeout(5000);
       return chai
         .request(app)
         .post('/api/auth/login')
@@ -81,6 +83,7 @@ describe('Auth endpoints', function () {
         });
     });
     it('Should reject requests with incorrect passwords', function () {
+      this.timeout(5000);
       return chai
         .request(app)
         .post('/api/auth/login')
@@ -98,6 +101,7 @@ describe('Auth endpoints', function () {
         });
     });
     it('Should return a valid auth token', function () {
+      this.timeout(5000);
       return chai
         .request(app)
         .post('/api/auth/login')
@@ -122,6 +126,7 @@ describe('Auth endpoints', function () {
 
   describe('/api/auth/refresh', function () {
     it('Should reject requests with no credentials', function () {
+      this.timeout(5000);
       return chai
         .request(app)
         .post('/api/auth/refresh')
@@ -138,6 +143,7 @@ describe('Auth endpoints', function () {
         });
     });
     it('Should reject requests with an invalid token', function () {
+      this.timeout(5000);
       const token = jwt.sign(
         {
           email,
@@ -168,8 +174,9 @@ describe('Auth endpoints', function () {
           expect(res).to.have.status(401);
         });
     });
-    
+
     it('Should return a valid auth token with a newer expiry date', function () {
+      this.timeout(5000);
       const token = jwt.sign(
         {
           user: {
