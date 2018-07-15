@@ -1,7 +1,7 @@
 {
   "name": "artshare",
   "version": "1.0.0",
-  "description": "A simple node/express/mongo app where you can share your digital art with people",
+  "description": "A simple node/express/mongo app where you can share art with people",
   "repository": {
     "type": "git",
     "url": "git://github.com/JeffWilkey/artshare.git"
