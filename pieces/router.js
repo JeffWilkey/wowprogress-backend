@@ -66,27 +66,49 @@ router.put('/:id', jwtAuth, (req, res) => {
     console.error(message);
     return res.status(400).json({ message: message });
   }
-
-  const toUpdate = {};
-  const updateableFields = ['title', 'body'];
-
-  updateableFields.forEach(field => {
-    if (field in req.body) {
-      toUpdate[field] = req.body[field];
-    }
-  });
-
   Piece
-  .findByIdAndUpdate(req.params.id, { $set: toUpdate })
-  .then(piece => res.status(200).json(piece.serialize()))
-  .catch(err => res.status(500).json({ message: 'Internal server error' }));
+  .findById(req.params.id)
+  .then((piece) => {
+    if (piece.userName !== req.user.username) {
+      const message = "That post doesn't belong to you"
+      console.error(message);
+      return res.status(401).json({ message: message });
+    }
+    const toUpdate = {};
+    const updateableFields = ['title', 'body', 'artist', 'thumbnailUrl', 'fullImageUrl'];
+
+    updateableFields.forEach(field => {
+      if (field in req.body) {
+        toUpdate[field] = req.body[field];
+      }
+    });
+
+    Piece
+    .findByIdAndUpdate(req.params.id, { $set: toUpdate }, {new: true})
+    .then((piece) => {
+      res.status(200).json(piece)
+    })
+    .catch(err => res.status(500).json({ message: 'Internal server error' }));
+  }).catch((err) => {
+    console.error(err.message)
+  })
+
 });
 
 router.delete('/:id', jwtAuth, (req, res) => {
   Piece
-  .findByIdAndRemove(req.params.id)
-  .then(piece => res.status(204).end())
-  .catch(err => res.status(500).json({ message: 'Internal server error' }));
+  .findById(req.params.id)
+  .then((piece) => {
+    if (piece.userName !== req.user.username) {
+      const message = "That post doesn't belong to you"
+      console.error(message);
+      return res.status(401).json({ message: message });
+    }
+    Piece
+    .findByIdAndRemove(req.params.id)
+    .then(piece => res.status(204).end())
+    .catch(err => res.status(500).json({ message: 'Internal server error' }));
+  });
 });
 
 module.exports = {router};
