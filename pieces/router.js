@@ -4,17 +4,17 @@ const router = express.Router();
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 
-const { Article } = require('./models');
+const { Piece } = require('./models');
 
 const jwtAuth = passport.authenticate('jwt', {session: false});
 router.use(bodyParser.json());
 // The user exchanges a valid JWT for a new one with a later expiration
 router.get('/', jwtAuth, (req, res) => {
-  Article
+  Piece
   .find()
-  .then(articles => {
+  .then(pieces => {
     res.status(200).json(
-      articles.map((article) => article.serialize())
+      pieces.map((piece) => piece.serialize())
     );
   })
   .catch(err => {
@@ -24,9 +24,9 @@ router.get('/', jwtAuth, (req, res) => {
 });
 
 router.get('/:id', jwtAuth, (req, res) => {
-  Article
+  Piece
     .findById(req.params.id)
-    .then(article => res.json(article.serialize()))
+    .then(piece => res.json(piece.serialize()))
     .catch(err => {
       console.error(err);
       res.status(500).json({ message: 'Internal server error' });
@@ -34,7 +34,7 @@ router.get('/:id', jwtAuth, (req, res) => {
 });
 
 router.post('/', jwtAuth, (req, res) => {
-  const requiredFields = ['title', 'body']
+  const requiredFields = ['title', 'body', 'artist', 'thumbnailUrl', 'fullImageUrl']
   for (let i = 0; i < requiredFields.length; i++) {
     const field = requiredFields[i];
     if (!(field in req.body)) {
@@ -47,9 +47,9 @@ router.post('/', jwtAuth, (req, res) => {
     userImage: req.user.gravatar,
     userName: req.user.username
   }
-  Article
+  Piece
     .create({...req.body, ...userDetails})
-    .then(article => res.status(201).json(article.serialize()))
+    .then(piece => res.status(201).json(piece.serialize()))
     .catch(err => {
       console.error(err);
       res.status(500).json({ message: 'Internal server error' });
@@ -76,16 +76,16 @@ router.put('/:id', jwtAuth, (req, res) => {
     }
   });
 
-  Article
+  Piece
   .findByIdAndUpdate(req.params.id, { $set: toUpdate })
-  .then(article => res.status(200).json(article.serialize()))
+  .then(piece => res.status(200).json(piece.serialize()))
   .catch(err => res.status(500).json({ message: 'Internal server error' }));
 });
 
 router.delete('/:id', jwtAuth, (req, res) => {
-  Article
+  Piece
   .findByIdAndRemove(req.params.id)
-  .then(article => res.status(204).end())
+  .then(piece => res.status(204).end())
   .catch(err => res.status(500).json({ message: 'Internal server error' }));
 });
 
