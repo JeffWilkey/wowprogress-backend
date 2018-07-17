@@ -51,14 +51,15 @@ function watchSignUpButton() {
       <div class="auth-form-container">
         <i id="close-shadowbox" class="fa fa-times" href="#"></i>
         <h1 class="auth-form-header">Sign Up</h1>
+        <div class="alert-error"></div>
         <div class="form-wrapper">
           <form id="sign-up-form" class="auth-form">
             <label for="email">Email</label>
-            <input type="text" name="email"/>
+            <input type="email" name="email" required/>
             <label for="username">Username</label>
-            <input type="text" name="username"/>
+            <input type="text" name="username" required/>
             <label for="password">Password</label>
-            <input type="password" name="password"/>
+            <input type="password" name="password" required/>
             <input id="sign-up-action" type="submit" value="Sign Up"/>
           </form>
         </div>
@@ -90,8 +91,10 @@ function watchSignUpAction() {
         $('.alert-success p').html(`You've successfully created an account, please Log In.`);
         $('.alert-success').fadeIn(200);
       },
-      error: function(req, err) {
-        console.log(req)
+      error: function(err) {
+        $('.alert-error').fadeIn(200).html(`
+          <p>${err.responseJSON.message}</p>
+        `)
       }
     })
   })
@@ -104,12 +107,15 @@ function watchLogInButton() {
       <div class="auth-form-container">
         <i id="close-shadowbox" class="fa fa-times" href="#"></i>
         <h1 class="auth-form-header">Log In</h1>
+
         <div class="form-wrapper">
+          <div class="alert-error"></div>
           <form id="login-form" class="auth-form">
             <label for="username">Username</label>
             <input type="text" name="username"/>
             <label for="password">Password</label>
             <input type="password" name="password"/>
+
             <input id="login-action" type="submit" value="Log in"/>
           </form>
         </div>
@@ -137,8 +143,10 @@ function watchLogInAction() {
       success: function(data) {
         loginSuccessful(data)
       },
-      error: function(req, err) {
-        console.log(req)
+      error: function(err) {
+        $(".alert-error").fadeIn(200).html(`
+          <p>Invalid username or password</p>
+        `)
       }
     })
   })
@@ -253,18 +261,19 @@ function watchCreatePieceButton() {
       <div class="piece-form-container">
         <i id="close-shadowbox" class="fa fa-times" href="#"></i>
         <h1 class="piece-form-header">Create Post</h1>
+        <div class="alert-error"></div>
         <div class="form-wrapper">
           <form id="create-piece-form" class="piece-form">
-            <label for="thumbnailUrl">Thumbnail URL</label>
-            <input type="text" name="thumbnailUrl"/>
-            <label for="fullImageUrl">Full Image URL</label>
-            <input type="text" name="fullImageUrl"/>
             <label for="title">Title</label>
             <input type="text" name="title"/>
             <label for="body">Body</label>
             <textarea type="text" name="body"/>
             <label for="artist">Original Artist</label>
             <input type="text" name="artist"/>
+            <label for="thumbnailUrl">Thumbnail URL</label>
+            <input type="text" name="thumbnailUrl"/>
+            <label for="fullImageUrl">Full Image URL</label>
+            <input type="text" name="fullImageUrl"/>
             <input id="create-piece-action" type="submit" value="Create Post"/>
           </form>
         </div>
@@ -295,8 +304,10 @@ function watchCreatePieceAction() {
       success: function(data) {
         createPieceSuccess(data);
       },
-      error: function(req, err) {
-        console.log(req)
+      error: function(err) {
+        $(".alert-error").fadeIn(200).html(`
+          <p>${err.responseJSON.message}</p>
+        `)
       }
     })
   })
@@ -366,7 +377,7 @@ function watchSeed() {
           console.log(data)
         },
         error: function(req, err) {
-          console.log(req)
+          console.log(err)
         }
       })
     })

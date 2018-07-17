@@ -178,6 +178,7 @@ body {
     input,
     textarea {
       display: block;
+      box-sizing: border-box;
       height: 32px;
       width: 300px;
       padding-left: 15px;
@@ -191,6 +192,12 @@ body {
       &:focus {
         outline: none;
       }
+    }
+
+    textarea {
+      height: 100px;
+      padding-top: 5px;
+      padding-bottom: 10px;
     }
     label {
       display: block;
@@ -240,6 +247,16 @@ body {
   }
 }
 
+.alert-error {
+  display: none;
+  margin: 0 auto;
+  color: #ef5350;
+  font-family: 'Lato', sans-serif;
+  text-align: center;
+  p {
+    margin-top: 0;
+  }
+}
 #current-user-avatar {
   display: inline-block;
   width: 30px;

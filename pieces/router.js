@@ -37,10 +37,11 @@ router.post('/', jwtAuth, (req, res) => {
   const requiredFields = ['title', 'body', 'artist', 'thumbnailUrl', 'fullImageUrl']
   for (let i = 0; i < requiredFields.length; i++) {
     const field = requiredFields[i];
-    if (!(field in req.body)) {
-      const message = `Missing \`${field}\` in request body`;
+    console.log(req.body)
+    if (req.body[field] === '' || req.body[field] === null) {
+      const message = `${field.charAt(0).toUpperCase() + field.substr(1)} is required`;
       console.error(message);
-      return res.status(400).send(message);
+      return res.status(400).json({message});
     }
   }
   userDetails = {
@@ -51,7 +52,6 @@ router.post('/', jwtAuth, (req, res) => {
     .create({...req.body, ...userDetails})
     .then(piece => res.status(201).json(piece.serialize()))
     .catch(err => {
-      console.error(err);
       res.status(500).json({ message: 'Internal server error' });
     });
 });

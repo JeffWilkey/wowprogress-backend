@@ -101,44 +101,64 @@ router.post('/', jsonParser, (req, res) => {
   email = email.trim();
   firstName = firstName.trim();
   lastName = lastName.trim();
-
-  return User.find({username})
-    .count()
-    .then(count => {
-      if (count > 0) {
-        // There is an existing user with the same username
-        console.log("USER ALREADY EXISTS")
-        return Promise.reject({
-          code: 422,
-          reason: 'ValidationError',
-          message: 'Username already taken',
-          location: 'username'
-        });
-      }
-      // If there is no existing user, hash the password
-      return User.hashPassword(password);
-    })
-    .then(hash => {
-      return User.create({
-        email,
-        username,
-        password: hash,
-        firstName,
-        lastName
+  User.find({email})
+  .count()
+  .then(count => {
+    if (count > 0) {
+      // There is an existing user with the same username
+      console.log("USER ALREADY EXISTS")
+      return Promise.reject({
+        code: 422,
+        reason: 'ValidationError',
+        message: 'Email has already been used to create an account',
+        location: 'email'
       });
-    })
-    .then(user => {
-      return res.status(201).json(user.serialize());
-    })
-    .catch(err => {
-      // Forward validation errors on to the client, otherwise give a 500
-      // error because something unexpected has happened
-      if (err.reason === 'ValidationError') {
-        return res.status(err.code).json(err);
-      }
-      console.log(err);
-      res.status(500).json({code: 500, message: err});
-    });
+    }
+  })
+  .then(() => {
+    return User.find({username})
+      .count()
+      .then(count => {
+        if (count > 0) {
+          // There is an existing user with the same username
+          console.log("USER ALREADY EXISTS")
+          return Promise.reject({
+            code: 422,
+            reason: 'ValidationError',
+            message: 'Username already taken',
+            location: 'username'
+          });
+        }
+        // If there is no existing user, hash the password
+        return User.hashPassword(password);
+      })
+      .then(hash => {
+        return User.create({
+          email,
+          username,
+          password: hash,
+          firstName,
+          lastName
+        });
+      })
+      .then(user => {
+        return res.status(201).json(user.serialize());
+      })
+      .catch(err => {
+        // Forward validation errors on to the client, otherwise give a 500
+        // error because something unexpected has happened
+        if (err.reason === 'ValidationError') {
+          return res.status(err.code).json(err);
+        }
+        res.status(500).json({code: 500, message: err});
+      });
+  }).catch (err => {
+    if (err.reason === 'ValidationError') {
+      return res.status(err.code).json(err);
+    }
+    res.status(500).json({code: 500, message: err});
+  })
+
 });
 
 // Never expose all your users like below in a prod application
