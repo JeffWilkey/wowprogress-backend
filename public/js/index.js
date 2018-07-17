@@ -1,13 +1,13 @@
 // Front Page
 function renderFrontPage() {
   $('.app-container').html(`
+    <div class="alert-success"><p>This is a really long success test message for styling</p><i id="close-alert" class="fa fa-times" href="#"></i></div>
     <header role="banner" class="header-container">
       <i class="far fa-newspaper"></i>
       <h1 class="header">ArtShare</h1>
       <div class="auth-actions-container">
         <button id="login" class="auth-actions-button">Login</button>
         <button id="signup" class="auth-actions-button">Sign Up</button>
-        <div class="alert-success"><p>This is a really long success test message for styling</p><i id="close-alert" class="fa fa-times" href="#"></i></div>
       </div>
     </header>
     <button id="seed">Seed Database</button
@@ -226,6 +226,7 @@ function renderPieces(pieces) {
               <p hidden class="piece-id">${piece.id}</p>
               <p hidden class="piece-full">${piece.fullImageUrl}</p>
               <p hidden class="piece-body">${piece.body}</p>
+              <p hidden class="piece-thumb">${piece.thumbnailUrl}</p>
             </section>
           </div>
         </article>
@@ -238,18 +239,142 @@ function watchPieces() {
   $('.pieces').on('click', '.piece', function(e) {
     e.preventDefault();
     $('.shadowbox').fadeIn(200);
+    pieceFullImage = $(this).find('.piece-full').text();
+    pieceThumbnail = $(this).find('.piece-thumb').text();
+    pieceTitle = $(this).find('.piece-title').text();
+    pieceArtist = $(this).find('.piece-tagline').text()
+    pieceBody = $(this).find('.piece-body').text();
+    pieceUsername = $(this).find('.piece-username').text().split(' ')[2];
+    pieceId = $(this).find('.piece-id').text();
+
+
+    storageUsername = localStorage.getItem('username');
     insertShadowBoxHTML(`
       <i id="close-shadowbox" class="fa fa-times" href="#"></i>
-      <img class="piece-full-image" src="${$(this).find('.piece-full').text()}" alt="${$(this).find('.piece-full').text()}"/>
-      <h1 class="piece-full-title">${$(this).find('.piece-title').text()}</h1>
-      <h3 class="piece-full-artist">${$(this).find('.piece-tagline').text()}</h3>
+      <img class="piece-full-image" src="${pieceFullImage}" alt="${pieceTitle}"/>
+      <h1 class="piece-full-title">${pieceTitle}</h1>
+      <h3 class="piece-full-artist">${pieceArtist}</h3>
       <hr style="width: 120px;"/>
-      <h4 class="piece-full-body">${$(this).find('.piece-body').text()}</h4>
+      <h4 class="piece-full-body">${pieceBody}</h4>
       <hr style="width: 120px;"/>
-      <p class="piece-full-username">${$(this).find('.piece-username').text()}</p>
+      <p class="piece-full-username">${pieceUsername}</p>
     `);
+    console.log(pieceUsername)
+    console.log(storageUsername)
+    if (pieceUsername === storageUsername) {
+      console.log("match");
+      $(".piece-full-username").after(`
+        <div class="piece-button-container">
+          <button class="piece-update-button">Update Post</button>
+          <button class="piece-delete-button">Delete Post</button>
+        </div>
+        `)
+    }
+    watchUpdatePieceButton({
+      id: pieceId,
+      title: pieceTitle,
+      body: pieceBody,
+      artist: pieceArtist.split(': ')[1],
+      thumbnailUrl: pieceThumbnail,
+      fullImageUrl: pieceFullImage
+    });
+    watchDeletePieceButton(pieceId);
   })
 }
+// Delete Post (Piece)
+function watchDeletePieceButton(pieceId) {
+  $('.piece-delete-button').on('click', function(e) {
+    $.ajax({
+      type: "DELETE",
+      url: `/api/pieces/${pieceId}`,
+      dataType: 'json',
+      contentType: "application/json",
+      beforeSend: function (xhr) {
+        xhr.setRequestHeader('Authorization', `Bearer ${localStorage.authToken}`);
+      },
+      success: function(data) {
+        $('.piece-form-container').fadeOut(200);
+        $('.shadowbox').fadeOut(200);
+        $('.alert-success p').html(`Post deleted successfully`);
+        $('.alert-success').fadeIn(200);
+        $('.pieces').html(``)
+        getPieces();
+      },
+      error: function(err) {
+        $(".alert-error").fadeIn(200).html(`
+          <p>${err.responseJSON.message}</p>
+        `)
+      }
+    })
+  })
+}
+
+// Update Piece
+function watchUpdatePieceButton(piece) {
+  $('.piece-update-button').on('click', function(e) {
+    e.preventDefault;
+    insertShadowBoxHTML(`
+      <div class="piece-form-container">
+        <i id="close-shadowbox" class="fa fa-times" href="#"></i>
+        <h1 class="piece-form-header">Update Post</h1>
+        <div class="alert-error"></div>
+        <div class="form-wrapper">
+          <form id="update-piece-form" class="piece-form">
+            <input type="text" name="id" value="${piece.id}" hidden/>
+            <label for="title">Title</label>
+            <input type="text" name="title" value="${piece.title}"/>
+            <label for="body">Body</label>
+            <textarea type="text" name="body">${piece.body}</textarea>
+            <label for="artist">Original Artist</label>
+            <input type="text" name="artist" value="${piece.artist}"/>
+            <label for="thumbnailUrl">Thumbnail URL</label>
+            <input type="text" name="thumbnailUrl" value="${piece.thumbnailUrl}"/>
+            <label for="fullImageUrl">Full Image URL</label>
+            <input type="text" name="fullImageUrl" value="${piece.fullImageUrl}"/>
+            <input id="update-piece-action" type="submit" value="Update Post"/>
+          </form>
+        </div>
+      </div>
+    `)
+    watchUpdatePieceAction();
+  })
+}
+
+function watchUpdatePieceAction() {
+  $('#update-piece-form').on('submit', function(e) {
+    e.preventDefault();
+    pieceInfo = {};
+    $(this).serializeArray().forEach(function(attribute) {
+      pieceInfo[attribute.name] = attribute.value;
+    });
+
+    $.ajax({
+      type: "PUT",
+      url: `/api/pieces/${pieceInfo['id']}`,
+      dataType: 'json',
+      contentType: "application/json",
+      beforeSend: function (xhr) {
+        xhr.setRequestHeader('Authorization', `Bearer ${localStorage.authToken}`);
+      },
+      data: JSON.stringify(pieceInfo),
+      success: function(data) {
+        $('.piece-form-container').fadeOut(200);
+        $('.shadowbox').fadeOut(200);
+        $('.alert-success p').html(`Post updated successfully`);
+        $('.alert-success').fadeIn(200);
+        $('.pieces').html(``)
+        getPieces();
+      },
+      error: function(err) {
+        $(".alert-error").fadeIn(200).html(`
+          <p>${err.responseJSON.message}</p>
+        `)
+      }
+    })
+  })
+}
+
+
 
 
 // Create Post (Piece) Actions
@@ -381,6 +506,8 @@ function watchSeed() {
         }
       })
     })
+    $('.pieces').html(``);
+    getPieces();
   })
 }
 

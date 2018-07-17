@@ -77,6 +77,15 @@ router.put('/:id', jwtAuth, (req, res) => {
     const toUpdate = {};
     const updateableFields = ['title', 'body', 'artist', 'thumbnailUrl', 'fullImageUrl'];
 
+    for (let i = 0; i < updateableFields.length; i++) {
+      const field = updateableFields[i];
+      if (req.body[field] === '' || req.body[field] === null) {
+        const message = `${field.charAt(0).toUpperCase() + field.substr(1)} is required`;
+        console.error(message);
+        return res.status(400).json({message});
+      }
+    }
+
     updateableFields.forEach(field => {
       if (field in req.body) {
         toUpdate[field] = req.body[field];

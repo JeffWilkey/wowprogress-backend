@@ -1,6 +1,11 @@
 body {
   margin: 0;
 }
+#seed {
+  position: fixed;
+  bottom: 15px;
+  right: 15px;
+}
 .far.fa-newspaper {
   font-size: 4em;
   color: #FF8A65;
@@ -206,7 +211,8 @@ body {
       font-weight: 300;
       margin: 5px 0;
     }
-    #create-piece-action {
+    #create-piece-action,
+    #update-piece-action {
       margin: 25px auto 0 auto;
       width: 120px;
       height: 36px;
@@ -229,6 +235,39 @@ body {
   }
 }
 
+.piece-button-container {
+  display: block;
+  text-align: center;
+}
+.piece-update-button,
+.piece-delete-button {
+  margin: 25px auto 0 auto;
+  width: 120px;
+  height: 36px;
+  border-radius: 0;
+  border: none;
+  padding: 10px 0 10px 0;
+  text-transform: uppercase;
+  font-family: 'Roboto', sans-serif;
+  font-size: 0.9em;
+  transition: .2s;
+  color: white;
+  &:hover {
+    cursor: pointer;
+    box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.2);
+    -ms-transform: translate(-2px, -2px); /* IE 9 */
+    -webkit-transform: translate(-2px, -2px); /* Safari */
+    transform: translate(-2px, -2px);
+  }
+}
+
+.piece-update-button {
+  background-color: #5c6bc0;
+}
+.piece-delete-button {
+  background-color: #ef5350;
+}
+
 .form-wrapper {
   display: inline-block;
 }
@@ -241,6 +280,7 @@ body {
   background-color: rgba(41, 187, 156, 0.5);
   vertical-align: top;
   display: none;
+  text-align: center;
   p {
     margin-top: 0;
     font-family: "Lato", sans-serif;
@@ -403,7 +443,7 @@ body {
 
   .piece-full-image {
     display: block;
-    height: 70%;
+    height: 50%;
     width: auto;
   }
   .auth-form-container,
