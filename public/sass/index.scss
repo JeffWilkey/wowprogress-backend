@@ -55,13 +55,14 @@ body {
   .header-left {
     box-sizing: border-box;
     display: inline-block;
-    width: 49%;
+    text-align: center;
+    width: 100%;
   }
   .header-right {
     box-sizing: border-box;
     display: inline-block;
-    width: 49%;
-    text-align: right;
+    text-align: center;
+    width: 100%;
   }
   .header {
     margin-top: 0;
@@ -269,7 +270,7 @@ body {
     width: 100%;
     bottom: 0;
     color: white;
-    background-color: rgba(0, 0, 0, 0.4);
+    background-color: rgba(0, 0, 0, 0.6);
     padding: 15px;
     opacity: 0;
     transition: .4s;
@@ -286,6 +287,7 @@ body {
     max-width: 300px;
     margin-bottom: 0;
     text-align: left;
+    font-size: 1.2em;
   }
   .piece-tagline {
     text-align: left;
@@ -371,29 +373,35 @@ body {
   .container {
     width: 960px;
   }
+  .header-container {
+    .header-left {
+      width: 49%;
+      text-align: left;
+    }
+    .header-right {
+      width: 49%;
+      text-align: right;
+    }
+  }
+
   .piece-full-image {
     display: block;
     height: 70%;
     width: auto;
   }
-  .auth-form-container {
-    width: 40%;
-  }
+  .auth-form-container,
   .column-33 {
     width: 40%;
   }
-  .piece-full-body {
+  .piece-full-body,
+  .piece-form-container {
     width: 50%;
   }
   .piece-action-button-row {
     text-align: right;
   }
-  .piece-form-container {
-    width: 50%;
-  }
 }
 @media (min-width: 960px) {
-
   .column-33 {
     width: 33%;
   }
