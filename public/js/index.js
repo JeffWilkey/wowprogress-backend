@@ -13,7 +13,7 @@ function renderFrontPage() {
     <button id="seed">Seed Database</button
     <main role="main">
       <div class="container">
-        <section class="pieces">
+        <section class="pieces" aria-live="assertive">
         </section>
       </div>
       <div class="shadowbox"></div>
@@ -209,18 +209,18 @@ function renderPieces(pieces) {
     console.log(piece)
     $(".pieces").append(`
       <div class="column-33">
-        <div class="piece">
+        <article class="piece">
           <div class="piece-image" style="background-image: url(${piece.thumbnailUrl})">
-            <div class="piece-info-container">
+            <section class="piece-info-container">
               <h1 class="piece-title">${piece.title}</h1>
               <p class="piece-tagline">Artist: ${piece.artist}</p>
               <p hidden class="piece-username">posted by ${piece.userName}</p>
               <p hidden class="piece-id">${piece.id}</p>
               <p hidden class="piece-full">${piece.fullImageUrl}</p>
               <p hidden class="piece-body">${piece.body}</p>
-            </div>
+            </section>
           </div>
-        </div>
+        </article>
       </div>
     `)
   })
