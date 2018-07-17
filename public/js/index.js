@@ -128,6 +128,7 @@ function loginSuccessful(data) {
   $('.shadowbox').fadeOut(200);
   $('header').fadeOut(200, function() {
     renderLoggedInHeader();
+    renderTopBarButtons();
     getPieces();
   });
 }
@@ -162,6 +163,15 @@ function renderLoggedInHeader() {
       </div>
     </div>
   `).fadeIn(200);
+}
+
+function renderTopBarButtons() {
+  $('.pieces').before(`
+    <div class="piece-action-button-row">
+      <button id="create-piece" class="piece-action-button">Create Post</button>
+    </div>
+  `)
+  watchCreatePieceButton();
 }
 
 function getPieces() {
@@ -208,7 +218,6 @@ function watchPieces() {
   $('.pieces').on('click', '.piece', function(e) {
     e.preventDefault();
     $('.shadowbox').fadeIn(200);
-    console.log();
     insertShadowBoxHTML(`
       <i id="close-shadowbox" class="fa fa-times" href="#"></i>
       <img class="piece-full-image" src="${$(this).find('.piece-full').text()}" alt="${$(this).find('.piece-full').text()}"/>
@@ -220,6 +229,84 @@ function watchPieces() {
       <p class="piece-full-username">${$(this).find('.piece-username').text()}</p>
     `);
   })
+}
+
+function watchCreatePieceButton() {
+  $('#create-piece').on('click', function(e) {
+    e.preventDefault();
+    $('.shadowbox').fadeIn(200);
+    insertShadowBoxHTML(`
+      <div class="piece-form-container">
+        <i id="close-shadowbox" class="fa fa-times" href="#"></i>
+        <h1 class="piece-form-header">Create Post</h1>
+        <div class="form-wrapper">
+          <form id="create-piece-form" class="piece-form">
+            <label for="thumbnailUrl">Thumbnail URL</label>
+            <input type="text" name="thumbnailUrl"/>
+            <label for="fullImageUrl">Full Image URL</label>
+            <input type="text" name="fullImageUrl"/>
+            <label for="title">Title</label>
+            <input type="text" name="title"/>
+            <label for="body">Body</label>
+            <textarea type="text" name="body"/>
+            <label for="artist">Original Artist</label>
+            <input type="text" name="artist"/>
+            <input id="create-piece-action" type="submit" value="Create Post"/>
+          </form>
+        </div>
+      </div>
+    `);
+    watchCreatePieceAction();
+  })
+}
+
+function watchCreatePieceAction() {
+  $("#create-piece-form").on('submit', function(e) {
+    e.preventDefault();
+
+    pieceInfo = {};
+    $(this).serializeArray().forEach(function(attribute) {
+      pieceInfo[attribute.name] = attribute.value;
+    });
+
+    $.ajax({
+      type: "POST",
+      url: "/api/pieces",
+      dataType: 'json',
+      contentType: "application/json",
+      beforeSend: function (xhr) {
+        xhr.setRequestHeader('Authorization', `Bearer ${localStorage.authToken}`);
+      },
+      data: JSON.stringify(pieceInfo),
+      success: function(data) {
+        createPieceSuccess(data);
+      },
+      error: function(req, err) {
+        console.log(req)
+      }
+    })
+  })
+}
+
+function createPieceSuccess(piece) {
+  $('.piece-form-container').fadeOut(200);
+  $('.shadowbox').fadeOut(200);
+  $(".pieces").append(`
+    <div class="column-33">
+      <div class="piece">
+        <div class="piece-image" style="background-image: url(${piece.thumbnailUrl})">
+          <div class="piece-info-container">
+            <h1 class="piece-title">${piece.title}</h1>
+            <p class="piece-tagline">Artist: ${piece.artist}</p>
+            <p hidden class="piece-username">posted by ${piece.userName}</p>
+            <p hidden class="piece-id">${piece.id}</p>
+            <p hidden class="piece-full">${piece.fullImageUrl}</p>
+            <p hidden class="piece-body">${piece.body}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  `)
 }
 
 function watchSeed() {

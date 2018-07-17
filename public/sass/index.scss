@@ -162,6 +162,65 @@ body {
   }
 }
 
+.piece-form-container {
+  width: 80%;
+  height: 100%;
+  margin: 0 auto;
+  text-align: center;
+  margin-top: 40px;
+  .piece-form-header {
+    color: white;
+    font-family: 'Lato', 'sans-serif';
+  }
+  .piece-form {
+    text-align: left;
+    input,
+    textarea {
+      display: block;
+      height: 32px;
+      width: 300px;
+      padding-left: 15px;
+      background: none;
+      border: solid 2px white;
+      border-radius: 18px;
+      color: white;
+      font-size: 16px;
+      font-family: 'Lato', sans-serif;
+      font-weight: 300;
+      &:focus {
+        outline: none;
+      }
+    }
+    label {
+      display: block;
+      color: white;
+      font-family: 'Lato', 'sans-serif';
+      font-weight: 300;
+      margin: 5px 0;
+    }
+    #create-piece-action {
+      margin: 25px auto 0 auto;
+      width: 120px;
+      height: 36px;
+      border-radius: 0;
+      background-color: #EC407A;
+      border: none;
+      padding: 10px 0 10px 0;
+      text-transform: uppercase;
+      font-family: 'Roboto', sans-serif;
+      font-size: 0.9em;
+      transition: .2s;
+      &:hover {
+        cursor: pointer;
+        box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.2);
+        -ms-transform: translate(-2px, -2px); /* IE 9 */
+        -webkit-transform: translate(-2px, -2px); /* Safari */
+        transform: translate(-2px, -2px);
+      }
+    }
+  }
+}
+
 .form-wrapper {
   display: inline-block;
 }
@@ -278,7 +337,36 @@ body {
 .pieces {
   text-align: center;
 }
+.piece-action-button-row {
+  text-align: center;
+}
 
+#create-piece {
+  background-color: #EC407A;
+  color: white;
+}
+
+.piece-action-button {
+  margin: 0 15px 20px 0;
+  -webkit-appearance: none;
+  padding: 7px 12px;
+  font-size: 0.8em;
+  font-family: 'Roboto', sans-serif;
+  text-transform: uppercase;
+  border: none;
+  transition: .2s;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+  &:hover {
+    cursor: pointer;
+    box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.2);
+    -ms-transform: translate(-2px, -2px); /* IE 9 */
+    -webkit-transform: translate(-2px, -2px); /* Safari */
+    transform: translate(-2px, -2px);
+  }
+  &:active, &:focus {
+    outline: none;
+  }
+}
 @media (min-width: 750px) {
   .container {
     width: 960px;
@@ -297,9 +385,15 @@ body {
   .piece-full-body {
     width: 50%;
   }
+  .piece-action-button-row {
+    text-align: right;
+  }
+  .piece-form-container {
+    width: 50%;
+  }
 }
-
 @media (min-width: 960px) {
+
   .column-33 {
     width: 33%;
   }
