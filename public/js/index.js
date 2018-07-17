@@ -1,3 +1,4 @@
+// Front Page
 function renderFrontPage() {
   $('.app-container').html(`
     <header role="banner" class="header-container">
@@ -18,6 +19,29 @@ function renderFrontPage() {
       <div class="shadowbox"></div>
     </main>
   `)
+}
+
+// Authentication
+function rememberLogIn() {
+  $(document).ready(function() {
+    if (localStorage.authToken) {
+      $.ajax({
+        type: "POST",
+        url: "/api/auth/refresh",
+        dataType: 'json',
+        contentType: "application/json",
+        beforeSend: function (xhr) {
+          xhr.setRequestHeader('Authorization', `Bearer ${localStorage.authToken}`);
+        },
+        success: function(data) {
+          loginSuccessful(data);
+        },
+        error: function(req, err) {
+          console.log(req)
+        }
+      })
+    }
+  })
 }
 
 function watchSignUpButton() {
@@ -122,8 +146,10 @@ function watchLogInAction() {
 
 function loginSuccessful(data) {
   localStorage.setItem('authToken', data.authToken);
-  localStorage.setItem('username', data.username);
-  localStorage.setItem('avatar', data.gravatar);
+  if (data.username && data.gravatar) {
+    localStorage.setItem('username', data.username);
+    localStorage.setItem('avatar', data.gravatar);
+  }
   $('.auth-form-container').fadeOut(200);
   $('.shadowbox').fadeOut(200);
   $('header').fadeOut(200, function() {
@@ -133,23 +159,7 @@ function loginSuccessful(data) {
   });
 }
 
-function insertShadowBoxHTML(htmlToInsert) {
-  $('.shadowbox').html(htmlToInsert);
-}
-
-function watchShadowBoxClose() {
-  $(".shadowbox").on('click', '#close-shadowbox', function(e) {
-    $('.auth-form-container').fadeOut(200);
-    $('.shadowbox').fadeOut(200);
-  });
-}
-
-function watchAlertClose() {
-  $(".alert-success").on('click', '#close-alert', function(e) {
-    $('.alert-success').fadeOut(200);
-  })
-}
-
+// After Authenticated
 function renderLoggedInHeader() {
   $('header').css({textAlign: 'left', paddingTop: '40px', minHeight: '0px'}).html(`
     <div class="container">
@@ -173,6 +183,8 @@ function renderTopBarButtons() {
   `)
   watchCreatePieceButton();
 }
+
+// Pieces Index and Actions
 
 function getPieces() {
   $.ajax({
@@ -231,6 +243,8 @@ function watchPieces() {
   })
 }
 
+
+// Create Post (Piece) Actions
 function watchCreatePieceButton() {
   $('#create-piece').on('click', function(e) {
     e.preventDefault();
@@ -291,7 +305,7 @@ function watchCreatePieceAction() {
 function createPieceSuccess(piece) {
   $('.piece-form-container').fadeOut(200);
   $('.shadowbox').fadeOut(200);
-  $(".pieces").append(`
+  $(".pieces").prepend(`
     <div class="column-33">
       <div class="piece">
         <div class="piece-image" style="background-image: url(${piece.thumbnailUrl})">
@@ -309,6 +323,9 @@ function createPieceSuccess(piece) {
   `)
 }
 
+
+
+// Utitlity
 function watchSeed() {
   const pieces = [
     {
@@ -356,14 +373,36 @@ function watchSeed() {
   })
 }
 
+// Shadowbox
+function insertShadowBoxHTML(htmlToInsert) {
+  $('.shadowbox').html(htmlToInsert);
+}
+
+function watchShadowBoxClose() {
+  $(".shadowbox").on('click', '#close-shadowbox', function(e) {
+    $('.auth-form-container').fadeOut(200);
+    $('.shadowbox').fadeOut(200);
+  });
+}
+
+// Alert
+function watchAlertClose() {
+  $(".alert-success").on('click', '#close-alert', function(e) {
+    $('.alert-success').fadeOut(200);
+  })
+}
+
+
+// Initialization the Application
 function initializeApp() {
   renderFrontPage(); // Render front page
   watchAlertClose(); // Watch for alert close
   watchSignUpButton(); // Watch for front page sign up button press
   watchLogInButton(); // Watch for front page log in button press
   watchShadowBoxClose(); // Watch for front page click of close shadowbox icon
-  watchSeed();
-  watchPieces();
+  watchSeed(); // Watch for click of seed button
+  watchPieces(); // Watch for each post in the index to be clicked and perform action when that happens
+  rememberLogIn(); // Comment out to not remember logged in user
 }
 
 initializeApp();
