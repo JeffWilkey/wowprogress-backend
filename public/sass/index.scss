@@ -314,7 +314,7 @@ body {
 
 .piece {
   display: inline-block;
-  width: 300px;
+  width: 80%;
   box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.2);
   font-family: 'Lato', sans-serif;
   border: solid 1px #eaeaea;
@@ -329,7 +329,7 @@ body {
     color: white;
     background-color: rgba(0, 0, 0, 0.6);
     padding: 15px;
-    opacity: 0;
+    opacity: 1;
     transition: .4s;
   }
   .piece-image {
@@ -440,14 +440,12 @@ body {
       text-align: right;
     }
   }
-
   .piece-full-image {
     display: block;
     height: 50%;
     width: auto;
   }
-  .auth-form-container,
-  .column-33 {
+  .auth-form-container {
     width: 40%;
   }
   .piece-full-body,
@@ -460,6 +458,13 @@ body {
 }
 @media (min-width: 960px) {
   .column-33 {
-    width: 33%;
+    width: 30%;
+    margin: 0 10px;
+  }
+  .piece {
+    width: 100%;
+    .piece-info-container {
+      opacity: 0;
+    }
   }
 }
