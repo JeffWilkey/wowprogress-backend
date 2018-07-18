@@ -359,7 +359,7 @@ describe('/api/user', function () {
 
         // Create an initial user
         return User.create({
-          email,
+          email: 'bob@test.com',
           username,
           password,
           firstName,
@@ -368,7 +368,7 @@ describe('/api/user', function () {
           .then(() =>
             // Try to create a second user with the same username
             chai.request(app).post('/api/users').send({
-              email,
+              email: 'bob@test2.com',
               username,
               password,
               firstName,
@@ -480,7 +480,7 @@ describe('/api/user', function () {
         });
       });
       it('Should return an array of users', function () {
-        
+
         return User.create(
           {
             email,
