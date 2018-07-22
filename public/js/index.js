@@ -5,6 +5,7 @@ function renderFrontPage() {
     <header role="banner" class="header-container">
       <i class="far fa-newspaper"></i>
       <h1 class="header">ArtShare</h1>
+      <h2 class="header-tagline">A simple way to share art</h2>
       <div class="auth-actions-container">
         <button id="login" class="auth-actions-button">Login</button>
         <button id="signup" class="auth-actions-button">Sign Up</button>
@@ -21,7 +22,7 @@ function renderFrontPage() {
   `)
   watchSignUpButton(); // Watch for front page sign up button press
   watchLogInButton(); // Watch for front page log in button press
-  watchShadowBoxClose();
+  watchShadowBoxClose(); // Watch the close button at the top of the shadow box
 }
 
 // Authentication

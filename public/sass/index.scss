@@ -95,10 +95,15 @@ body {
     width: 100%;
   }
   .header {
-    margin-top: 0;
+    margin: 0;
     font-family: 'Lato', sans-serif;
     font-size: 2.6em;
     color: #3a3a3a;
+  }
+  .header-tagline {
+    font-family: 'Lato', sans-serif;
+    font-weight: 300;
+    margin-top: 0;
   }
   .header-2 {
     margin-top: 10px;
