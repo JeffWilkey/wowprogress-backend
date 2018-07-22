@@ -3,7 +3,7 @@
 
 A simple node/express/mongo app where you can share art with people
 
-[artshare](https://i.imgur.com/ggfW0P0.jpg)
+![artshare](https://i.imgur.com/ggfW0P0.jpg)
 
 ### Technologies Used
 - Node
