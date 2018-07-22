@@ -266,7 +266,7 @@ function watchPieces() {
       <hr style="width: 120px;"/>
       <h4 class="piece-full-body">${pieceBody}</h4>
       <hr style="width: 120px;"/>
-      <p class="piece-full-username">${pieceUsername}</p>
+      <p class="piece-full-username">posted by ${pieceUsername}</p>
     `);
     if (pieceUsername === storageUsername) {
       $(".piece-full-username").after(`
