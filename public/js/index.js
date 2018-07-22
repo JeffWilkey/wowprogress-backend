@@ -19,6 +19,9 @@ function renderFrontPage() {
       <div class="shadowbox"></div>
     </main>
   `)
+  watchSignUpButton(); // Watch for front page sign up button press
+  watchLogInButton(); // Watch for front page log in button press
+  watchShadowBoxClose();
 }
 
 // Authentication
@@ -35,9 +38,6 @@ function rememberLogIn() {
         },
         success: function(data) {
           loginSuccessful(data);
-        },
-        error: function(req, err) {
-          console.log(req)
         }
       })
     }
@@ -85,7 +85,6 @@ function watchSignUpAction() {
       contentType: "application/json",
       data: JSON.stringify(userInfo),
       success: function(data) {
-        console.log(data)
         $('.auth-form-container').fadeOut(200);
         $('.shadowbox').fadeOut(200);
         $('.alert-success p').html(`You've successfully created an account, please Log In.`);
@@ -162,6 +161,7 @@ function loginSuccessful(data) {
   $('.shadowbox').fadeOut(200);
   $('header').fadeOut(200, function() {
     renderLoggedInHeader();
+    watchLogout();
     renderTopBarButtons();
     getPieces();
   });
@@ -177,10 +177,18 @@ function renderLoggedInHeader() {
       </div>
       <div class="header-right">
         <img id="current-user-avatar" src="${localStorage.avatar}" alt="${localStorage.username}'s gravatar"/>
-        <p id="current-user-username">${localStorage.username} (<a id="logout" href="#">logout</a>)</p>
+        <p id="current-user-username">${localStorage.username} (<button id="logout" href="#">logout</button>)</p>
       </div>
     </div>
   `).fadeIn(200);
+}
+
+function watchLogout() {
+  $("#logout").on('click', function(e) {
+    e.preventDefault();
+    localStorage.setItem('authToken', null)
+    renderFrontPage();
+  });
 }
 
 function renderTopBarButtons() {
@@ -205,16 +213,12 @@ function getPieces() {
     },
     success: function(pieces) {
       renderPieces(pieces);
-    },
-    error: function(req, err) {
-      console.log(req)
     }
   })
 }
 
 function renderPieces(pieces) {
   pieces.reverse().forEach(function(piece) {
-    console.log(piece)
     $(".pieces").append(`
       <div class="column-33">
         <article class="piece">
@@ -259,10 +263,7 @@ function watchPieces() {
       <hr style="width: 120px;"/>
       <p class="piece-full-username">${pieceUsername}</p>
     `);
-    console.log(pieceUsername)
-    console.log(storageUsername)
     if (pieceUsername === storageUsername) {
-      console.log("match");
       $(".piece-full-username").after(`
         <div class="piece-button-container">
           <button class="piece-update-button">Update Post</button>
@@ -320,7 +321,7 @@ function watchUpdatePieceButton(piece) {
         <div class="alert-error"></div>
         <div class="form-wrapper">
           <form id="update-piece-form" class="piece-form">
-            <input type="text" name="id" value="${piece.id}" hidden/>
+            <input type="hidden" name="id" value="${piece.id}"/>
             <label for="title">Title</label>
             <input type="text" name="title" value="${piece.title}"/>
             <label for="body">Body</label>
@@ -535,9 +536,6 @@ function watchAlertClose() {
 function initializeApp() {
   renderFrontPage(); // Render front page
   watchAlertClose(); // Watch for alert close
-  watchSignUpButton(); // Watch for front page sign up button press
-  watchLogInButton(); // Watch for front page log in button press
-  watchShadowBoxClose(); // Watch for front page click of close shadowbox icon
   watchSeed(); // Watch for click of seed button
   watchPieces(); // Watch for each post in the index to be clicked and perform action when that happens
   rememberLogIn(); // Comment out to not remember logged in user
