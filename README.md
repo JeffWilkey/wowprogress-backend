@@ -6,6 +6,7 @@ A simple node/express/mongo app where you can share art with people
 ## API
 #### INDEX OF POSTS (GET -> /api/pieces)
 #### CREATING A POST (POST -> /api/pieces)
+Required Fields:
 ```json
   {
     "title": "Chroma II",
@@ -18,6 +19,7 @@ A simple node/express/mongo app where you can share art with people
 
 #### GET A SINGLE POST (GET -> /api/pieces/:id)
 #### UPDATING A POST (PUT -> /api/pieces/:id)
+Required Fields:
 ```json
   {
     "id": "09fdasf8aasdf890af8",
