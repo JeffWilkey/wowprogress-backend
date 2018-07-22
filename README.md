@@ -3,6 +3,16 @@
 
 A simple node/express/mongo app where you can share art with people
 
+### Technologies Used
+- Node
+- Express
+- Passport
+- MongoDB
+- Sass
+- Javascript
+- jQuery
+
+
 ## API
 #### INDEX OF POSTS (GET -> /api/pieces)
 #### CREATING A POST (POST -> /api/pieces)
