@@ -11,7 +11,6 @@ function renderFrontPage() {
         <button id="signup" class="auth-actions-button">Sign Up</button>
       </div>
     </header>
-    <button id="seed">Seed Database</button
     <main role="main">
       <div class="container">
         <section class="pieces" aria-live="assertive">
