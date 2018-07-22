@@ -16,6 +16,17 @@ body {
   }
 }
 
+.demo {
+  font-family: 'Lato', sans-serif;
+  color: white;
+  .demo-header {
+    margin-bottom: 0;
+  }
+  .demo-cred {
+    margin: 5px 0 0 0;
+  }
+}
+
 #logout {
   -webkit-appearance: none;
   appearance: none;

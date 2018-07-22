@@ -117,6 +117,11 @@ function watchLogInButton() {
 
             <input id="login-action" type="submit" value="Log in"/>
           </form>
+          <div class="demo">
+            <h4 class="demo-header">Demo Credentials</h4>
+            <p class="demo-cred"><strong>Username</strong>: demo123</p>
+            <p class="demo-cred"><strong>Password</strong>: demopass</p>
+          </div>
         </div>
       </div>
     `);
