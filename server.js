@@ -16,7 +16,7 @@ const path = require('path');
 // console.log(bobby); // De Niro - the variable name is bobby, not robert
 const { router: usersRouter } = require('./users');
 const { router: authRouter, localStrategy, jwtStrategy } = require('./auth');
-const { router: piecesRouter } = require('./pieces');
+const { router: charactersRouter } = require('./characters');
 
 mongoose.Promise = global.Promise;
 
