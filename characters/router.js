@@ -13,9 +13,19 @@ router.get('/', jwtAuth, (req, res) => {
   Character
   .find()
   .then(characters => {
-    res.status(200).json(
-      characters.map((character) => character.serialize())
-    );
+    if (characters.length) {
+      res.status(200).json(
+        characters.map((character) => character.serialize())
+      );
+    } else {
+      res.status(200).json({
+        data: [
+          {name: 'Kazarria', realm: 'Proudmoore'},
+          {name: 'Kazrine', realm: 'Proudmoore'}
+        ]
+      })
+    }
+
   })
   .catch(err => {
     console.error(err);
