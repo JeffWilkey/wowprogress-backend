@@ -8,15 +8,15 @@ const CharacterSchema = mongoose.Schema({
     type: String,
     required: true
   },
-  image: {
-    type: String,
-    required: true
-  },
   name: {
     type: String,
     required: true
   },
   realm: {
+    type: String,
+    required: true
+  },
+  realmSlug: {
     type: String,
     required: true
   }
@@ -26,9 +26,9 @@ CharacterSchema.methods.serialize = function() {
   return {
     id: this._id || '',
     userId: this.userId || '',
-    image: this.image || '',
     name: this.name || '',
-    realm: this.realm || ''
+    realm: this.realm || '',
+    realmSlug: this.realmSlug || ''
   };
 };
 
