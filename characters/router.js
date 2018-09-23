@@ -17,15 +17,11 @@ router.get('/', jwtAuth, (req, res) => {
     if (characters.length) {
       res.status(200).json({
         data: characters.map((character) => character.serialize())
-      }
-      );
+      });
     } else {
       res.status(200).json({
-        data: [
-          {name: 'Kazarria', realm: 'Proudmoore'},
-          {name: 'Kazrine', realm: 'Proudmoore'}
-        ]
-      })
+        data: []
+      });
     }
 
   })
@@ -46,7 +42,7 @@ router.get('/:id', jwtAuth, (req, res) => {
 });
 
 router.post('/', jwtAuth, (req, res) => {
-  const requiredFields = ['name', 'realm', 'realmSlug']
+  const requiredFields = ['name', 'realm', 'realmSlug', 'class', 'race', 'faction'];
   for (let i = 0; i < requiredFields.length; i++) {
     const field = requiredFields[i];
     if (req.body[field] === '' || req.body[field] === null) {

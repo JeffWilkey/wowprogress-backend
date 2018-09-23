@@ -19,6 +19,18 @@ const CharacterSchema = mongoose.Schema({
   realmSlug: {
     type: String,
     required: true
+  },
+  class: {
+    type: Number,
+    required: true
+  },
+  race: {
+    type: Number,
+    required: true
+  },
+  faction: {
+    type: Number,
+    required: true
   }
 });
 
@@ -28,7 +40,10 @@ CharacterSchema.methods.serialize = function() {
     userId: this.userId || '',
     name: this.name || '',
     realm: this.realm || '',
-    realmSlug: this.realmSlug || ''
+    realmSlug: this.realmSlug || '',
+    class: this.class || null,
+    race: this.race || null,
+    faction: this.faction || null
   };
 };
 
