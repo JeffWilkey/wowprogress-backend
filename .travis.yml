@@ -1,4 +1,11 @@
 language: node_js
 node_js: node
 services:
-  - mongodb
+- mongodb
+deploy:
+  provider: heroku
+  api_key:
+    secure: ZnfeszmrWm0nOlL1pot7NwyiyZBDDLo3n/PKFuLKPfsnl+QIjEjlU5Jea51CJiCqi1hV2D68pp8mbywsgGffdy272MLLf7e4nbN518N202M6Pu41Og2HMvfLbq+uMlmNw4i5GYg586kGw/H6TXJ54Tb53zYJZLZeR4w59SsQXCOHQqC0o8l3s+bKJdSsEK6i8SFSEmeFO4KCLmVPF4c1Npcv2OFNKmQ2Pd6mMuTrYO+Upc5ok+Q4apaxZa5JtdgHDfaAY8xN+K9dOGiaIRtb846+ciG83CECYfEInQIXOq1ZhQAaqJ5wtx0nET9m4uUiBpdTq76eGnmxnCTwpWlXrTmZZwMjpMCtZT7wgRDCUfIADH+Gz/2Y0zHdVQ6s0404qax7Iri/jIQ1tUFBfejp38Fs6+93w72NafHSvju2ifTQ5tRp+nC9twpxk4MIRnKH19GhJlj/09amnYFX3qE5A/4viSqvorXFvM32NL6XowDDwlBo+TEPpicIU3hR80bpBsTKZRTvf+NQvd4BcVL7SXeABG1ObLfC4I3iMMgEvlrav3n0AFycCxKQYKrKLufcpKwjnZ2fw/EexiFY53rqdT83cvRsk3fQiDyarlnJqxx7CJXoQ6AKFMsw1oR/Bt4/DBxkeiUoVPiUatbH9N554gZcTEFikgqUc+DTkOCYHeg=
+  app: wowprogress-backend
+  on:
+    repo: JeffWilkey/wowprogress-backend
