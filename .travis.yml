@@ -1,11 +1,2 @@
 language: node_js
 node_js: node
-services:
-- mongodb
-deploy:
-  provider: heroku
-  api_key:
-    secure: jKWBHjVovVmqMvd15QagwvGQwDh/QECp8B5Th+0CUMFea7piKavxBm/ud/5LID7uL+5S4AKvIdpDdw7I6D+4QzAupk5R82PREYnBIp+8ecwjDq3rmCpUrsfDma3lse/t7XTZlBk8Wra0xtUj32aXRpqzKqPdzg3+K8o8W6KgV32B/AOVo1FG/Jztzsa1GVthbDE4Uujz1mvCkJe6uvwQYtQGDxXaxjiOq8aNDhhoM5x9UwO12vKQyXd2v8CGCsE5udbsxJQ6q5g+tsBo3a5zNkeUhzztK1uNKRru4WYb/ol3kCTNQmuz1A97Kc8R0BxMXwEi6joPJII92yl3AH8Vp8ntM0MKnGky0+L7ozTb022wZ1eq58hqQhDxvnO6uNeb5gAbOo2cVHmuyJhFI20/T51l4d+jmHpZHwi0gNeGcjuXOAmGA2xT6eHntYhkvGdo1FZlS7nzZ6lu4CGI4g9QXnEoupBgem/UHAhqNaOA52KgqTlCAzPTHwoIHBZanQClhab72A0pnoVntFCZ2m95tXARgEJnFKjYGjwrkFCg9gfHOVZoxOE/JAuH1srFWoThrm5lakGeEofZFaOmoiHIA4ZdDB/EL99gsrnwmS3Lxa+ytcRuWt0skS8xk5biyz/YguLhaDOQfkKKo9HszIO7ESHk+z9PLDegXHWCKMmvvOw=
-  app: arcane-castle-45295
-  on:
-    repo: JeffWilkey/artshare
