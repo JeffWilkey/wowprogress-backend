@@ -470,52 +470,53 @@ describe('/api/user', function () {
       });
     });
 
-    describe('GET', function () {
-      it('Should return an empty array initially', function () {
-
-        return chai.request(app).get('/api/users').then(res => {
-          expect(res).to.have.status(200);
-          expect(res.body).to.be.an('array');
-          expect(res.body).to.have.length(0);
-        });
-      });
-      it('Should return an array of users', function () {
-
-        return User.create(
-          {
-            email,
-            username,
-            password,
-            firstName,
-            lastName
-          },
-          {
-            email: emailB,
-            username: usernameB,
-            password: passwordB,
-            firstName: firstNameB,
-            lastName: lastNameB
-          }
-        )
-          .then(() => chai.request(app).get('/api/users'))
-          .then(res => {
-            expect(res).to.have.status(200);
-            expect(res.body).to.be.an('array');
-            expect(res.body).to.have.length(2);
-            expect(res.body[0]).to.include({
-              email,
-              username,
-              firstName,
-              lastName
-            });
-            expect(res.body[1]).to.include({
-              email: emailB,
-              username: usernameB,
-              firstName: firstNameB,
-              lastName: lastNameB
-            });
-          });
-      });
-    });
+    // This isn't recommended for production
+    // describe('GET', function () {
+    //   it('Should return an empty array initially', function () {
+    //
+    //     return chai.request(app).get('/api/users').then(res => {
+    //       expect(res).to.have.status(200);
+    //       expect(res.body).to.be.an('array');
+    //       expect(res.body).to.have.length(0);
+    //     });
+    //   });
+    //   it('Should return an array of users', function () {
+    //
+    //     return User.create(
+    //       {
+    //         email,
+    //         username,
+    //         password,
+    //         firstName,
+    //         lastName
+    //       },
+    //       {
+    //         email: emailB,
+    //         username: usernameB,
+    //         password: passwordB,
+    //         firstName: firstNameB,
+    //         lastName: lastNameB
+    //       }
+    //     )
+    //       .then(() => chai.request(app).get('/api/users'))
+    //       .then(res => {
+    //         expect(res).to.have.status(200);
+    //         expect(res.body).to.be.an('array');
+    //         expect(res.body).to.have.length(2);
+    //         expect(res.body[0]).to.include({
+    //           email,
+    //           username,
+    //           firstName,
+    //           lastName
+    //         });
+    //         expect(res.body[1]).to.include({
+    //           email: emailB,
+    //           username: usernameB,
+    //           firstName: firstNameB,
+    //           lastName: lastNameB
+    //         });
+    //       });
+    //   });
+    // });
   });
 });
